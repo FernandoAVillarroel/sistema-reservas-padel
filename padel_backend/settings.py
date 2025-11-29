@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'corsheaders',
+    'django_filters',
     
     # Local apps
     'users',
@@ -72,7 +73,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'padel_booking',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'fernando',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
