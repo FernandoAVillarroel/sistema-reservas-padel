@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from .serializers import UserSerializer, UserCreateSerializer, UserLoginSerializer
@@ -40,14 +41,16 @@ class UserViewSet(viewsets.ModelViewSet):
         user = authenticate(request, username=username, password=password)
         
         if user:
-            login(request, user)
+            # Crear o obtener token
+            token, created = Token.objects.get_or_create(user=user)
+            
             return Response({
-                'message': 'Login exitoso',
+                'token': token.key,
                 'user': UserSerializer(user).data
             })
         else:
             return Response(
-                {'error': 'Credenciales inválidas'},
+                {'detail': 'Credenciales inválidas'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
     
